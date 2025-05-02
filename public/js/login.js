@@ -1,3 +1,4 @@
+// ✅ login.js actualizado con integración completa
 async function validarTokenAlInicio() {
   const token    = localStorage.getItem('token');
   const userMenu = document.getElementById('user-menu');
@@ -18,6 +19,9 @@ async function validarTokenAlInicio() {
     userName.textContent = usuario;
     userMenu.classList.add('active');
 
+    document.dispatchEvent(new Event('login-success'));
+    console.log('[OK] Evento login-success disparado');
+
   } catch {
     localStorage.removeItem('token');
     document.dispatchEvent(new Event('logout'));
@@ -34,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const userMenu  = document.getElementById('user-menu');
 
   validarTokenAlInicio();
+
   btnPagar.addEventListener('click', e => {
     e.preventDefault();
     if (!localStorage.getItem('token')) {
@@ -43,9 +48,11 @@ document.addEventListener('DOMContentLoaded', () => {
       document.dispatchEvent(new Event('login-success'));
     }
   });
+
   authModal.addEventListener('click', e => {
     if (e.target === authModal) authModal.classList.remove('active');
   });
+
   loginForm.addEventListener('submit', async e => {
     e.preventDefault();
     const usuario = document.getElementById('login-username').value.trim();
@@ -71,10 +78,10 @@ document.addEventListener('DOMContentLoaded', () => {
       alert('Servidor no disponible');
     }
   });
+
   logoutBtn.addEventListener('click', () => {
     localStorage.removeItem('token');
     document.dispatchEvent(new Event('logout'));
     userMenu.classList.remove('active');
-
   });
 });

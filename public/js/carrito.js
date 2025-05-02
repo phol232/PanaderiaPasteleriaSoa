@@ -2,7 +2,6 @@ let carrito = [];
 window.carrito = carrito;
 
 function cargarCarrito() {
-  // Cargamos el carrito siempre, independientemente del token
   const datos = localStorage.getItem('carrito');
   if (datos) {
     try {
@@ -16,7 +15,6 @@ function cargarCarrito() {
 }
 
 function guardarCarrito() {
-  // Guardamos el carrito siempre
   localStorage.setItem('carrito', JSON.stringify(carrito));
 }
 
@@ -30,7 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const contadorCarrito  = document.getElementById('contador-carrito');
   const carritoTotal     = document.getElementById('carrito-total');
 
-  // Al cerrar sesión, sí vaciamos el carrito como requiere el cliente
   document.addEventListener('logout', () => {
     carrito = [];
     window.carrito = carrito;

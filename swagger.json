@@ -1,107 +1,155 @@
 {
-    "openapi": "3.0.0",
-    "info": {
-      "title": "API Panadería y Pastelería",
-      "version": "1.0.0",
-      "description": "Documentación de los servicios REST para la panadería y pastelería"
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API Panadería y Pastelería",
+    "version": "1.0.0",
+    "description": "Documentación de los servicios REST para la panadería y pastelería"
+  },
+  "paths": {
+    "/api/productos": {
+      "get": {
+        "summary": "Obtener lista de productos",
+        "responses": {
+          "200": { "description": "Lista de productos" }
+        }
+      }
     },
-    "paths": {
-      "/api/productos": {
-        "get": {
-          "summary": "Obtener lista de productos",
-          "responses": {
-            "200": {
-              "description": "Lista de productos"
-            }
-          }
+    "/api/categorias": {
+      "get": {
+        "summary": "Obtener lista de categorías",
+        "responses": {
+          "200": { "description": "Lista de categorías" }
         }
-      },
-      "/api/categorias": {
-        "get": {
-          "summary": "Obtener lista de categorías",
-          "responses": {
-            "200": {
-              "description": "Lista de categorías"
-            }
-          }
-        }
-      },
-      "/api/clientes": {
-        "post": {
-          "summary": "Registrar un nuevo cliente",
-          "requestBody": {
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "nombre": { "type": "string" },
-                    "email": { "type": "string" }
-                  },
-                  "required": ["nombre", "email"]
-                }
+      }
+    },
+    "/api/clientes": {
+      "post": {
+        "summary": "Registrar un nuevo cliente",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nombre": { "type": "string" },
+                  "email": { "type": "string" }
+                },
+                "required": ["nombre", "email"]
               }
-            }
-          },
-          "responses": {
-            "200": {
-              "description": "Cliente registrado correctamente"
             }
           }
         },
-        "get": {
-          "summary": "Buscar cliente por correo electrónico",
-          "parameters": [
-            {
-              "name": "email",
-              "in": "query",
-              "required": true,
-              "schema": { "type": "string" }
-            }
-          ],
-          "responses": {
-            "200": { "description": "Cliente encontrado" },
-            "404": { "description": "Cliente no encontrado" }
-          }
+        "responses": {
+          "200": { "description": "Cliente registrado correctamente" }
         }
       },
-      "/api/ventas": {
-        "post": {
-          "summary": "Registrar una venta",
-          "requestBody": {
+      "get": {
+        "summary": "Buscar cliente por correo electrónico",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
             "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Cliente encontrado" },
+          "404": { "description": "Cliente no encontrado" }
+        }
+      }
+    },
+    "/api/ventas": {
+      "get": {
+        "summary": "Listar todas las ventas",
+        "responses": {
+          "200": {
+            "description": "Array con todas las ventas",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "cliente_id": { "type": "integer" },
-                    "productos": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "producto_id": { "type": "integer" },
-                          "cantidad": { "type": "integer" },
-                          "precio": { "type": "number" }
-                        },
-                        "required": ["producto_id", "cantidad", "precio"]
-                      }
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "integer" },
+                      "cliente_id": { "type": "integer" },
+                      "fecha": { "type": "string", "format": "date-time" },
+                      "total": { "type": "number" },
+                      "tipo_pago": { "type": "string" },
+                      "numero_comprobante": { "type": "string" },
+                      "igv": { "type": "number" },
+                      "descuento": { "type": "number" },
+                      "estado": { "type": "string" },
+                      "observaciones": { "type": "string" },
+                      "empleado_id": { "type": "integer" },
+                      "forma_entrega": { "type": "string" }
                     }
-                  },
-                  "required": ["cliente_id", "productos"]
+                  }
                 }
               }
-            }
-          },
-          "responses": {
-            "200": {
-              "description": "Venta registrada correctamente"
             }
           }
         }
       }
+    },
+    "/api/ventas/registrar": {
+      "post": {
+        "summary": "Registrar una nueva venta",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "cliente_id": { "type": "integer" },
+                  "total": { "type": "number" },
+                  "tipo_pago": { "type": "string" },
+                  "numero_comprobante": { "type": "string" },
+                  "igv": { "type": "number" },
+                  "descuento": { "type": "number" },
+                  "estado": { "type": "string" },
+                  "observaciones": { "type": "string" },
+                  "empleado_id": { "type": "integer" },
+                  "forma_entrega": { "type": "string" },
+                  "carrito": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "integer" },
+                        "cantidad": { "type": "integer" },
+                        "precio": { "type": "number" },
+                        "nombre": { "type": "string" }
+                      }
+                    }
+                  }
+                },
+                "required": ["cliente_id", "total", "tipo_pago", "carrito"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Venta registrada correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "venta_id": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          },
+          "500": { "description": "Error al registrar la venta" }
+        }
+      }
     }
   }
-  
+}

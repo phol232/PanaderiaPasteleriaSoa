@@ -1,27 +1,80 @@
 const db = require('../models/db');
+const moment = require('moment');
 
-const registrarVenta = (req, res) => {
-  const { cliente_id, productos } = req.body;
-
-  db.beginTransaction((err) => {
-    if (err) return res.status(500).json({ error: err.message });
-
-    db.query('INSERT INTO ventas (cliente_id, fecha) VALUES (?, NOW())', [cliente_id], (err, resultadoVenta) => {
-      if (err) return db.rollback(() => res.status(500).json({ error: err.message }));
-
-      const venta_id = resultadoVenta.insertId;
-      const detalle = productos.map(p => [venta_id, p.producto_id, p.cantidad, p.precio]);
-
-      db.query('INSERT INTO detalle_venta (venta_id, producto_id, cantidad, precio_unitario) VALUES ?', [detalle], (err) => {
-        if (err) return db.rollback(() => res.status(500).json({ error: err.message }));
-
-        db.commit((err) => {
-          if (err) return db.rollback(() => res.status(500).json({ error: err.message }));
-          res.json({ mensaje: 'Venta registrada correctamente', venta_id });
-        });
-      });
-    });
-  });
+exports.listarVentas = async (req, res) => {
+  let connection;
+  try {
+    connection = await db.getConnection();
+    const [ventas] = await connection.query(`
+      SELECT 
+        id,
+        cliente_id,
+        fecha,
+        total,
+        tipo_pago,
+        numero_comprobante,
+        igv,
+        descuento,
+        estado,
+        observaciones,
+        empleado_id,
+        forma_entrega
+      FROM ventas
+      ORDER BY fecha DESC
+    `);
+    res.json(ventas);
+  } catch (error) {
+    console.error('[ventasController.listarVentas]', error);
+    res.status(500).json({ error: 'Error al listar ventas', detalles: error.message });
+  } finally {
+    if (connection) connection.release();
+  }
 };
 
-module.exports = { registrarVenta };
+exports.registrarVenta = async (req, res) => {
+  const {
+    cliente_id,
+    total,
+    tipo_pago,
+    numero_comprobante,
+    igv,
+    descuento,
+    estado,
+    observaciones,
+    empleado_id,
+    forma_entrega,
+    carrito
+  } = req.body;
+
+  const connection = await db.getConnection();
+  try {
+    await connection.beginTransaction();
+
+    // Insertar venta
+    const [venta] = await connection.query(`
+      INSERT INTO ventas (cliente_id, total, tipo_pago, numero_comprobante, igv, descuento, estado, observaciones, empleado_id, forma_entrega)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [cliente_id, total, tipo_pago, numero_comprobante, igv, descuento, estado, observaciones, empleado_id, forma_entrega]
+    );
+
+    const venta_id = venta.insertId;
+
+    // Insertar productos
+    for (let item of carrito) {
+      await connection.query(`
+        INSERT INTO detalle_venta (venta_id, producto_id, cantidad, precio_unitario, descripcion)
+        VALUES (?, ?, ?, ?, ?)`,
+          [venta_id, item.id, item.cantidad, item.precio, item.nombre]
+      );
+    }
+
+    await connection.commit();
+    res.status(200).json({ success: true, venta_id });
+
+  } catch (error) {
+    await connection.rollback();
+    res.status(500).json({ error: 'Error al registrar venta', detalles: error.message });
+  } finally {
+    connection.release();
+  }
+};

@@ -10,191 +10,205 @@
 </head>
 <body>
 
-  <section id="auth" class="auth-section">
-    <div class="auth-card">
-      <input type="radio" id="tab-login" name="tab">
-      <input type="radio" id="tab-register" name="tab">
-      <div class="tabs-triggers">
-        <label for="tab-login">Login</label>
-        <label for="tab-register">Register</label>
-      </div>
-      <div class="tab-panel" id="panel-login">
-        <form id="form-login">
-          <div class="form-group">
-            <label for="login-username">Usuario</label>
-            <input type="text" id="login-username" name="username" placeholder="Tu usuario" required>
-          </div>
-          <div class="form-group">
-            <label for="login-password">Contraseña</label>
-            <input type="password" id="login-password" name="password" placeholder="Tu contraseña" required>
-          </div>
-          <button type="submit" class="btn">Ingresar</button>
-        </form>
-      </div>
-      <div class="tab-panel" id="panel-register">
-        <form id="form-register">
-          <div class="form-group">
-            <label for="reg-firstname">Nombres</label>
-            <input type="text" id="reg-firstname" name="nombre" placeholder="Tus nombres" required>
-          </div>
-          <div class="form-group">
-            <label for="reg-lastname">Apellidos</label>
-            <input type="text" id="reg-lastname" name="apellido" placeholder="Tus apellidos" required>
-          </div>
-          <div class="form-group">
-            <label for="reg-username">Usuario</label>
-            <input type="text" id="reg-username" name="usuario" placeholder="Elige un usuario" required minlength="3">
-          </div>
-          <div class="form-group">
-            <label for="reg-password">Contraseña</label>
-            <input type="password" id="reg-password" name="password" placeholder="Crear contraseña" required minlength="6">
-          </div>
-          <div class="form-group">
-            <label for="reg-confirm">Confirmar Contraseña</label>
-            <input type="password" id="reg-confirm" name="confirmPassword" placeholder="Repite contraseña" required>
-          </div>
-          <button type="submit" class="btn">Registrar</button>
-        </form>
-      </div>
+<section id="auth" class="auth-section">
+  <div class="auth-card">
+    <input type="radio" id="tab-login" name="tab">
+    <input type="radio" id="tab-register" name="tab">
+    <div class="tabs-triggers">
+      <label for="tab-login">Login</label>
+      <label for="tab-register">Register</label>
     </div>
-  </section>
+    <div class="tab-panel" id="panel-login">
+      <form id="form-login">
+        <div class="form-group">
+          <label for="login-username">Usuario</label>
+          <input type="text" id="login-username" name="username" placeholder="Tu usuario" required>
+        </div>
+        <div class="form-group">
+          <label for="login-password">Contraseña</label>
+          <input type="password" id="login-password" name="password" placeholder="Tu contraseña" required>
+        </div>
+        <button type="submit" class="btn">Ingresar</button>
+      </form>
+    </div>
+    <div class="tab-panel" id="panel-register">
+      <form id="form-register">
+        <div class="form-group">
+          <label for="reg-firstname">Nombres</label>
+          <input type="text" id="reg-firstname" name="nombre" placeholder="Tus nombres" required>
+        </div>
+        <div class="form-group">
+          <label for="reg-lastname">Apellidos</label>
+          <input type="text" id="reg-lastname" name="apellido" placeholder="Tus apellidos" required>
+        </div>
+        <div class="form-group">
+          <label for="reg-username">Usuario</label>
+          <input type="text" id="reg-username" name="usuario" placeholder="Elige un usuario" required minlength="3">
+        </div>
+        <div class="form-group">
+          <label for="reg-password">Contraseña</label>
+          <input type="password" id="reg-password" name="password" placeholder="Crear contraseña" required minlength="6">
+        </div>
+        <div class="form-group">
+          <label for="reg-confirm">Confirmar Contraseña</label>
+          <input type="password" id="reg-confirm" name="confirmPassword" placeholder="Repite contraseña" required>
+        </div>
+        <button type="submit" class="btn">Registrar</button>
+      </form>
+    </div>
+  </div>
+</section>
 
-  <section id="orders" class="auth-section">
-    <div class="auth-card">
-      <div class="modal-header">
-        <h3>Resumen de tu Pedido</h3>
-        <button id="close-orders" class="close-btn">&times;</button>
-      </div>
-      <div id="orders-list" class="orders-list"></div>
+<<section id="orders" class="auth-section">
+  <div class="auth-card orders-layout">
+    <div id="orders-list" class="orders-list">
+        <h3>RESUMEN PEDIDOS</h3>
+        <div class="orders-container">
+            <!-- Aquí se cargarán los pedidos -->
+        </div>
+    </div>
+    <div class="payment-section">
       <div class="orders-summary">
         <p>Subtotal: S/ <span id="orders-subtotal">0.00</span></p>
         <p>IGV (18%): S/ <span id="orders-igv">0.00</span></p>
         <p>Total: S/ <span id="orders-total">0.00</span></p>
       </div>
-      <button id="btn-proceed-payment" class="btn">Pagar</button>
-    </div>
-  </section>
-  <section id="payment" class="auth-section">
-    <div class="auth-card">
-      <h3>Elige método de pago</h3>
-      <form id="form-payment">
-        <div class="form-group">
-          <input type="radio" id="pay-efectivo" name="paymentMethod" value="efectivo" checked>
-          <label for="pay-efectivo">Efectivo</label>
-        </div>
-        <div class="form-group">
-          <input type="radio" id="pay-tarjeta" name="paymentMethod" value="tarjeta">
-          <label for="pay-tarjeta">Tarjeta</label>
-        </div>
-        <div class="form-group">
-          <input type="radio" id="pay-yape" name="paymentMethod" value="yape">
-          <label for="pay-yape">Yape</label>
-        </div>
-        <div class="form-group">
-          <input type="radio" id="pay-plin" name="paymentMethod" value="plin">
-          <label for="pay-plin">Plin</label>
-        </div>
-        <button type="submit" class="btn">Confirmar Pago</button>
-      </form>
-    </div>
-  </section>
 
-  <header class="hero">
-    <nav class="nav-bar">
-      <h1>Panadería Delicia</h1>
-      <ul class="menu">
-        <li><a href="#inicio">Inicio</a></li>
-        <li><a href="#productos">Productos</a></li>
-        <li><a href="#nosotros">Nosotros</a></li>
-        <li><a href="#pedidos">Pedidos</a></li>
-      </ul>
-      <div id="user-menu" class="user-menu">
-        <span id="user-name"></span>
-        <i class="fas fa-caret-down"></i>
-        <ul id="user-dropdown" class="user-dropdown">
-          <li><a href="/perfil">Perfil</a></li>
-          <li><button id="logout-btn" class="logout-btn">LOG OUT</button></li>
-        </ul>
-      </div>
-    </nav>
-    <div class="hero-content">
-      <h2>Sweet Treats, Perfect Eats</h2>
-      <p>Delicias horneadas con amor cada día</p>
-      <a class="btn" href="#productos">Ver productos</a>
-      <div class="cart-icon-hero" id="carrito-btn">
-        <div class="cart-circle">
-          <i class="fas fa-shopping-cart"></i>
-          <span id="contador-carrito">0</span>
-        </div>
-      </div>
-    </div>
-  </header>
+      <div class="payment-methods">
+        <h4>Método de pago</h4>
+        <form id="form-payment">
+          <div class="payment-options">
+            <div class="payment-option">
+              <label>
+                <input type="radio" name="paymentMethod" value="efectivo" checked>
+                <i class="fas fa-money-bill-wave"></i> Efectivo
+              </label>
+            </div>
 
-  <div class="carrito-container" id="carrito-container">
-    <div class="carrito-header">
-      <h3>Tu Carrito</h3>
-      <button id="cerrar-carrito"><i class="fas fa-times"></i></button>
-    </div>
-    <div class="carrito-productos" id="carrito-productos"></div>
-    <div class="carrito-footer">
-      <div class="total">
-        <span>Total:</span>
-        <span id="carrito-total">S/0.00</span>
+            <div class="payment-option">
+              <label>
+                <input type="radio" name="paymentMethod" value="tarjeta">
+                <i class="fas fa-credit-card"></i> Tarjeta
+              </label>
+            </div>
+            <div class="payment-option">
+              <label>
+                <input type="radio" name="paymentMethod" value="yape">
+                <i class="fas fa-mobile-alt"></i> Yape
+              </label>
+            </div>
+            <div class="payment-option">
+              <label>
+                <input type="radio" name="paymentMethod" value="plin">
+                <i class="fas fa-mobile"></i> Plin
+              </label>
+            </div>
+          </div>
+        </form>
       </div>
-      <button id="btn-pagar" class="btn-pagar">Realizar Pedido</button>
+
+      <button id="btn-proceed-payment" class="btn btn-pagar-modal">Confirmar Pago</button>
     </div>
   </div>
-  <div class="carrito-overlay" id="carrito-overlay"></div>
+</section>
 
-  <section id="productos" class="productos">
-    <h2>Top Productos</h2>
-    <div class="grid-productos"></div>
-  </section>
 
-  <section class="promo">
-    <h2>20% de descuento en tu primer pedido</h2>
-    <p>¡Aprovecha nuestra promoción especial!</p>
-    <a class="btn" href="#pedidos">Pedir ahora</a>
-  </section>
-
-  <section id="nosotros" class="nosotros">
-    <h2>Sobre Nosotros</h2>
-    <p>Panadería familiar con recetas tradicionales y pasión por el pan y la pastelería.</p>
-  </section>
-
-  <section id="pedidos" class="pedidos">
-    <h2>Haz tu Pedido</h2>
-    <form id="form-pedido">
-      <label for="nombre">Nombre:</label>
-      <input type="text" id="nombre" name="nombre" required>
-      <input type="submit" value="Enviar Pedido">
-    </form>
-  </section>
-
-  <footer class="footer">
-    <div class="footer-content">
-      <div>
-        <h3>Contacto</h3>
-        <p>📞 987 654 321</p>
-        <p>📧 panaderiadelicia@gmail.com</p>
-      </div>
-      <div>
-        <h3>Redes</h3>
-        <p>Facebook · Instagram · WhatsApp</p>
-      </div>
-      <div>
-        <h3>Explora</h3>
-        <p>Inicio · Productos · Nosotros · Pedidos</p>
+<header class="hero">
+  <nav class="nav-bar">
+    <h1>Panadería Delicia</h1>
+    <ul class="menu">
+      <li><a href="#inicio">Inicio</a></li>
+      <li><a href="#productos">Productos</a></li>
+      <li><a href="#nosotros">Nosotros</a></li>
+      <li><a href="#pedidos">Pedidos</a></li>
+    </ul>
+    <div id="user-menu" class="user-menu">
+      <span id="user-name"></span>
+      <i class="fas fa-caret-down"></i>
+      <ul id="user-dropdown" class="user-dropdown">
+        <li><a href="/perfil">Perfil</a></li>
+        <li><button id="logout-btn" class="logout-btn">LOG OUT</button></li>
+      </ul>
+    </div>
+  </nav>
+  <div class="hero-content">
+    <h2>Sweet Treats, Perfect Eats</h2>
+    <p>Delicias horneadas con amor cada día</p>
+    <a class="btn" href="#productos">Ver productos</a>
+    <div class="cart-icon-hero" id="carrito-btn">
+      <div class="cart-circle">
+        <i class="fas fa-shopping-cart"></i>
+        <span id="contador-carrito">0</span>
       </div>
     </div>
-    <p class="copy">© 2025 Panadería Delicia. Todos los derechos reservados.</p>
-  </footer>
+  </div>
+</header>
 
-  <script src="js/productos.js"></script>
-  <script src="js/carrito.js"></script>
-  <script src="js/login.js"></script>
-  <script src="js/register.js"></script>
-  <script src="js/orders.js"></script>
-  <script src="js/usuario.js"></script>
+<div class="carrito-container" id="carrito-container">
+  <div class="carrito-header">
+    <h3>Tu Carrito</h3>
+    <button id="cerrar-carrito"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="carrito-productos" id="carrito-productos"></div>
+  <div class="carrito-footer">
+    <div class="total">
+      <span>Total:</span>
+      <span id="carrito-total">S/0.00</span>
+    </div>
+    <button id="btn-pagar" class="btn-pagar">Realizar Pedido</button>
+  </div>
+</div>
+<div class="carrito-overlay" id="carrito-overlay"></div>
+
+<section id="productos" class="productos">
+  <h2>Top Productos</h2>
+  <div class="grid-productos"></div>
+</section>
+
+<section class="promo">
+  <h2>20% de descuento en tu primer pedido</h2>
+  <p>¡Aprovecha nuestra promoción especial!</p>
+  <a class="btn" href="#pedidos">Pedir ahora</a>
+</section>
+
+<section id="nosotros" class="nosotros">
+  <h2>Sobre Nosotros</h2>
+  <p>Panadería familiar con recetas tradicionales y pasión por el pan y la pastelería.</p>
+</section>
+
+<section id="pedidos" class="pedidos">
+  <h2>Haz tu Pedido</h2>
+  <form id="form-pedido">
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="nombre" name="nombre" required>
+    <input type="submit" value="Enviar Pedido">
+  </form>
+</section>
+
+<footer class="footer">
+  <div class="footer-content">
+    <div>
+      <h3>Contacto</h3>
+      <p>📞 987 654 321</p>
+      <p>📧 panaderiadelicia@gmail.com</p>
+    </div>
+    <div>
+      <h3>Redes</h3>
+      <p>Facebook · Instagram · WhatsApp</p>
+    </div>
+    <div>
+      <h3>Explora</h3>
+      <p>Inicio · Productos · Nosotros · Pedidos</p>
+    </div>
+  </div>
+  <p class="copy">© 2025 Panadería Delicia. Todos los derechos reservados.</p>
+</footer>
+
+<script src="js/productos.js"></script>
+<script src="js/carrito.js"></script>
+<script src="js/login.js"></script>
+<script src="js/register.js"></script>
+<script src="js/orders.js"></script>
+<script src="js/usuario.js"></script>
 </body>
 </html>
