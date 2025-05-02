@@ -1,9 +1,8 @@
 let carrito = [];
 window.carrito = carrito;
-function cargarCarrito() {
-  const token = localStorage.getItem('token');
-  if (!token) return;
 
+function cargarCarrito() {
+  // Cargamos el carrito siempre, independientemente del token
   const datos = localStorage.getItem('carrito');
   if (datos) {
     try {
@@ -15,9 +14,9 @@ function cargarCarrito() {
     }
   }
 }
+
 function guardarCarrito() {
-  const token = localStorage.getItem('token');
-  if (!token) return;
+  // Guardamos el carrito siempre
   localStorage.setItem('carrito', JSON.stringify(carrito));
 }
 
@@ -30,25 +29,31 @@ document.addEventListener('DOMContentLoaded', () => {
   const carritoProductos = document.getElementById('carrito-productos');
   const contadorCarrito  = document.getElementById('contador-carrito');
   const carritoTotal     = document.getElementById('carrito-total');
+
+  // Al cerrar sesión, sí vaciamos el carrito como requiere el cliente
   document.addEventListener('logout', () => {
     carrito = [];
     window.carrito = carrito;
     localStorage.removeItem('carrito');
     actualizarCarrito();
   });
+
   carritoBtn.addEventListener('click', e => {
     e.preventDefault();
     carritoContainer.classList.add('active');
     carritoOverlay.classList.add('active');
   });
+
   cerrarCarritoBtn.addEventListener('click', () => {
     carritoContainer.classList.remove('active');
     carritoOverlay.classList.remove('active');
   });
+
   carritoOverlay.addEventListener('click', () => {
     carritoContainer.classList.remove('active');
     carritoOverlay.classList.remove('active');
   });
+
   document.addEventListener('productos-cargados', () => {
     document.querySelectorAll('.agregar-carrito').forEach(boton => {
       boton.addEventListener('click', agregarAlCarrito);
@@ -81,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (carrito.length === 0) {
       carritoProductos.innerHTML =
-        '<div class="carrito-vacio">No hay productos en el carrito</div>';
+          '<div class="carrito-vacio">No hay productos en el carrito</div>';
       actualizarContadorYTotal();
       return;
     }
