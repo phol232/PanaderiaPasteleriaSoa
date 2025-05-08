@@ -11,27 +11,24 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Logger global
 app.use((req, res, next) => {
     console.log(`--> ${req.method} ${req.originalUrl}`);
     next();
 });
 
-// Montar rutas de la API
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/productos', require('./routes/productosRoutes'));
 app.use('/api/categorias', require('./routes/categoriasRoutes'));
 app.use('/api/clientes', require('./routes/clientesRoutes'));
 app.use('/api/ventas', require('./routes/ventasRoutes'));
 
-// Leer el archivo swagger.json dinámicamente (sin caché)
+
 app.get('/swagger.json', (req, res) => {
     try {
         const swaggerPath = path.join(__dirname, 'swagger.json');
         const swaggerContent = fs.readFileSync(swaggerPath, 'utf8');
         const swaggerDocument = JSON.parse(swaggerContent);
 
-        // Evitar caché del navegador
         res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
         res.setHeader('Pragma', 'no-cache');
         res.setHeader('Expires', '0');
@@ -43,7 +40,6 @@ app.get('/swagger.json', (req, res) => {
     }
 });
 
-// Swagger UI, usando URL con timestamp para evitar caché
 app.use(
     '/api/docs',
     swaggerUi.serve,
@@ -55,13 +51,11 @@ app.use(
     })
 );
 
-// Archivos estáticos y fallback para SPA
 app.use(express.static(path.join(__dirname, 'public')));
 app.get(/^\/(?!api).*/, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// 404 final
 app.use((req, res) => {
     res.status(404).json({ error: 'Recurso no encontrado' });
 });
